@@ -1,0 +1,7 @@
+services:
+  docker-container-spec:
+    # docker-compose.yml has 'container_name' property set for service 'localstack' but
+    # this property is not supported by Testcontainers, consider removing it
+    # container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: "alpine"
+    command: "tail -f /dev/null"

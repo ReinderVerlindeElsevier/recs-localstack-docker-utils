@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5level [%date] %logger{5}: %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="FLUENTD" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>127.0.0.1</syslogHost>
+        <facility>LOCAL0</facility>
+        <port>5140</port>
+        <suffixPattern>%-5level [%date] %logger{5}: %msg%n</suffixPattern>
+    </appender>
+    <logger name="k8_NATIVE" level="INFO">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <if condition='isDefined("IS_INTEGRATED_WITH_OTHER_SERVICES")'>
+        <then>
+            <root level="info">
+                <appender-ref ref="FLUENTD" />
+            </root>
+        </then>
+        <else>
+            <root level="info">
+                <appender-ref ref="STDOUT" />
+            </root>
+        </else>
+    </if>
+</configuration>
